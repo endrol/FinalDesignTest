@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.finaldesigntest.requestActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_record"
+        android:text="start record"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stop_record"
+        android:text="stop record"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/listen_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Listen record" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/stop_listen"
+            android:text="stop listen"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/set_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="set time" />
+
+    <Button
+        android:id="@+id/choose_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="choose location" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/choose_realTime"
+        android:text="real Time"/>
+
+</LinearLayout>

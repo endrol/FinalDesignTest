@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.finaldesigntest.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="409dp">
+
+        <TextView
+            android:id="@+id/show_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ed_message" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/send_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Send message"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/connect"
+            android:text="Connect"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>
