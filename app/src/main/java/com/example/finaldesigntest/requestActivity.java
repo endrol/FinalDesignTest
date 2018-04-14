@@ -258,7 +258,7 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.choose_realTime:
-                Intent intent1 = new Intent(this,testActivity.class);
+                Intent intent1 = new Intent(this,realTimeAudioActivity.class);
                 startActivity(intent1);
                 break;
         }

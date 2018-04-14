@@ -30,23 +30,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
         <TableRow>
-        <Button
-            android:id="@+id/pushing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="推送"
-            android:onClick="onPushing"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/pushing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="推送"
+                android:onClick="onPushing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
-            android:id="@+id/switching_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSwitchCamera"
-            android:text="切换"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/switching_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onSwitchCamera"
+                android:text="切换"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </TableRow>
     </TableLayout>
 

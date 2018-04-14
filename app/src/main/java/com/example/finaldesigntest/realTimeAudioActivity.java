@@ -9,6 +9,7 @@ import android.net.rtp.AudioStream;
 import android.net.rtp.RtpStream;
 import android.net.sip.SipProfile;
 import android.nfc.Tag;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,11 +58,27 @@ public class realTimeAudioActivity extends BaseActivity implements View.OnClickL
         Intent intent = new Intent(this, MediaStream.class);
         startService(intent);
 
+        getMediaStream().subscribe(new Consumer<MediaStream>() {
+            @Override
+            public void accept(final MediaStream mediaStream) throws Exception {
+                MediaStream.PushingState state = mediaStream.getPushingState();
+                if (state != null && state.state > 0) {
+                    Toast.makeText(MyApplication.getContext(), "在推送", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyApplication.getContext(), "NOT推送", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Toast.makeText(realTimeAudioActivity.this,
+                        "创建服务出错!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         findViewById(R.id.record_realTime).setOnClickListener(this);
         findViewById(R.id.stop_realTime).setOnClickListener(this);
         findViewById(R.id.set_rtsp).setOnClickListener(this);
-
-
 
     }
 
@@ -70,15 +87,45 @@ public class realTimeAudioActivity extends BaseActivity implements View.OnClickL
         super.onDestroy();
     }
 
+    private void toPush(){
+        getMediaStream().subscribe(new Consumer<MediaStream>() {
+            @Override
+            public void accept(MediaStream mediaStream) throws Exception {
+                MediaStream.PushingState state = mediaStream.getPushingState();
+
+                String id = PreferenceManager.getDefaultSharedPreferences(
+                        realTimeAudioActivity.this).getString("hello", null);
+                if (id == null) {
+                    id = "hello";
+                    PreferenceManager.getDefaultSharedPreferences(
+                            realTimeAudioActivity.this).edit().putString("hello", id).apply();
+                }
+                mediaStream.startStream("192.168.191.1","554",id);
+            }
+        });
+    }
+
+    private void toStop(){
+        getMediaStream().subscribe(new Consumer<MediaStream>() {
+            @Override
+            public void accept(MediaStream mediaStream) throws Exception {
+                MediaStream.PushingState state = mediaStream.getPushingState();
+                if(state != null && state.state > 0){
+                    mediaStream.stopStream();
+                }
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.record_realTime:
-
+                toPush();
                 break;
             case R.id.stop_realTime:
-
+                toStop();
                 break;
 
             case R.id.set_rtsp:
