@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.services;
 
 import android.app.Service;
 import android.content.Intent;

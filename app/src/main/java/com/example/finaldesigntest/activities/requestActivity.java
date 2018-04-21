@@ -1,19 +1,14 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +17,14 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.example.finaldesigntest.R;
+import com.example.finaldesigntest.services.checkLocationService;
+import com.example.finaldesigntest.services.playTaskService;
+import com.example.finaldesigntest.services.socketLinkService;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,14 +32,14 @@ import java.util.List;
 
 public class requestActivity extends BaseActivity implements View.OnClickListener {
 
-    private String TAG = "requestActivity.this";
+    private String TAG = "requestActivity";
 
     private MediaRecorder mediaRecorder;
     private File recordFile;
     private String recordFilePath = Environment.getExternalStorageDirectory()
                                          .getAbsolutePath()+"/audio/";
 
-    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private MediaPlayer mediaPlayer;
     private static String nowRecordPath;
     private boolean isRecording = false;
 
@@ -58,7 +55,12 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
         //启动播放任务service
         Intent intent1 = new Intent(this,playTaskService.class);
         startService(intent1);
+//        //启动自检查location的service
+//        Intent intent2 = new Intent(this,checkLocationService.class);
+//        startService(intent2);
 
+        mediaRecorder = new MediaRecorder();
+//        mediaPlayer = new MediaPlayer();
 
         findViewById(R.id.start_record).setOnClickListener(this);
         findViewById(R.id.stop_record).setOnClickListener(this);
@@ -67,6 +69,7 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.choose_location).setOnClickListener(this);
         findViewById(R.id.set_time).setOnClickListener(this);
         findViewById(R.id.choose_realTime).setOnClickListener(this);
+        findViewById(R.id.listen_realRtsp).setOnClickListener(this);
 
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(requestActivity.this, Manifest
@@ -109,18 +112,21 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void startRecording(){
-        mediaRecorder = new MediaRecorder();
+        Log.e(TAG,"in startrecording");
         recordFile = new File(recordFilePath+System.currentTimeMillis()+".amr");
+
         recordFile.getParentFile().mkdirs();   //创建father 文件夹
 
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
         mediaRecorder.setOutputFile(recordFile.getAbsolutePath());
+        Log.e(TAG,"file path is"+recordFile.getAbsolutePath());
         isRecording = true;
         try {
             mediaRecorder.prepare();
             mediaRecorder.start();
+            Log.e(TAG,"i'm recording");
 } catch (IOException e) {
         e.printStackTrace();
         }
@@ -130,10 +136,11 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
     private void stopRecording(){
         if(recordFile != null){
             mediaRecorder.stop();
+            Log.e(TAG,"the file"+recordFile.getAbsolutePath()+"is record stoped");
             mediaRecorder.reset();
             nowRecordPath = recordFile.getAbsolutePath();
-            Log.d(TAG,"stoped recording");
-            Log.d(TAG,"nowRecordPath is "+nowRecordPath);
+            Log.e(TAG,"stoped recording");
+            Log.e(TAG,"nowRecordPath is "+nowRecordPath);
             isRecording = false;
             initMediaPlayer();
             //弹出选择窗口
@@ -177,9 +184,12 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
     private void initMediaPlayer(){
         Log.d(TAG,"In initMediaPlayer");
         try {
-            File playFile = new File(nowRecordPath);
-            mediaPlayer.setDataSource(playFile.getPath());
-            mediaPlayer.prepare();
+            if (nowRecordPath != null){
+                File playFile = new File(nowRecordPath);
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(playFile.getPath());
+                mediaPlayer.prepare();
+            }
         } catch (IOException e) {
             Log.d(TAG,"can't find the file");
             e.printStackTrace();
@@ -209,8 +219,9 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.stop_listen:
                 if(mediaPlayer.isPlaying()){
-                    mediaPlayer.reset();
-                    initMediaPlayer();
+                    mediaPlayer.stop();
+//                    mediaPlayer.reset();
+//                    initMediaPlayer();
                 }
                 break;
             case R.id.set_time:
@@ -260,6 +271,11 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
             case R.id.choose_realTime:
                 Intent intent1 = new Intent(this,realTimeAudioActivity.class);
                 startActivity(intent1);
+                break;
+
+            case R.id.listen_realRtsp:
+                Intent intent2 = new Intent(this,listenRealRtspActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

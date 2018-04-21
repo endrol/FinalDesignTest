@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.app.Activity;
 import android.support.v4.app.ActivityCompat;

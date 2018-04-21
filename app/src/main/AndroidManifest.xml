@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".MyApplication"
+        android:name=".helper.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,8 +28,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="AvoAkGMkgN9iNqr40GUaaop9ttZTswGO" />
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,35 +38,41 @@
         </activity>
 
         <service
-            android:name=".socketLinkService"
+            android:name=".services.socketLinkService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".socketLinkService"
+            android:name=".services.socketLinkService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".requestActivity" />
-        <activity android:name=".locationActivity" />
+        <activity android:name=".activities.requestActivity" />
+        <activity android:name=".activities.locationActivity" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
         <service
-            android:name=".playTaskService"
+            android:name=".services.playTaskService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".realTimeAudioActivity" />
+        <activity android:name=".activities.realTimeAudioActivity" />
 
         <service
-            android:name=".listenRealTimeRecordService"
+            android:name=".services.listenRealTimeRecordService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".setRtspActivity" />
-        <activity android:name=".testActivity"></activity>
+        <activity android:name=".activities.testActivity" />
+        <activity android:name=".activities.listenRealRtspActivity" />
+        <activity android:name=".activities.splashActivity"></activity>
+
+        <service
+            android:name=".services.checkLocationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

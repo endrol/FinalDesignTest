@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.finaldesigntest.requestActivity">
+    android:background="@color/back1"
+    tools:context="com.example.finaldesigntest.activities.requestActivity">
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/start_record"
-        android:text="start record"/>
-    <Button
-        android:layout_width="match_parent"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="428dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginStart="104dp"
+        android:text="start record"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/stop_record"
-        android:text="stop record"/>
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="124dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="104dp"
+        android:text="stop record"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/linearLayout"
+        android:layout_width="161dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="180dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/listen_record"
@@ -28,31 +46,58 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Listen record" />
+
         <Button
+            android:id="@+id/stop_listen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/stop_listen"
-            android:text="stop listen"/>
+            android:text="stop listen" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/set_time"
-        android:layout_width="match_parent"
+        android:layout_width="79dp"
         android:layout_height="wrap_content"
-        android:text="set time" />
+        android:layout_marginLeft="136dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="248dp"
+        android:text="set time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/choose_location"
-        android:layout_width="match_parent"
+        android:layout_width="122dp"
         android:layout_height="wrap_content"
-        android:text="choose location" />
+        android:layout_marginBottom="128dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginStart="104dp"
+        android:text="choose location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/choose_realTime"
-        android:text="real Time"/>
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginStart="68dp"
+        android:text="real Time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/listen_realRtsp"
+        android:layout_width="95dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="184dp"
+        android:layout_marginStart="184dp"
+        android:text="Listen RTSP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

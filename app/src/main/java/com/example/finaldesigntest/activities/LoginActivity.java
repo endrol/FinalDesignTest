@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.finaldesigntest.R;
+import com.example.finaldesigntest.helper.checkLogin;
+import com.example.finaldesigntest.services.loginTask;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     //记住账号和密码function

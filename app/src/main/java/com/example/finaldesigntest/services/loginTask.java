@@ -1,11 +1,13 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.services;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.finaldesigntest.helper.MyApplication;
+import com.example.finaldesigntest.helper.checkLogin;
+import com.example.finaldesigntest.helper.serverConstant;
 
 import java.io.IOException;
 

@@ -1,24 +1,17 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.services;
 
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.finaldesigntest.helper.MyApplication;
+import com.example.finaldesigntest.helper.serverConstant;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

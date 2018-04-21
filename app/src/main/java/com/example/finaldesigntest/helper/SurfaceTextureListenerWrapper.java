@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.helper;
 
 import android.graphics.SurfaceTexture;
 import android.view.TextureView;

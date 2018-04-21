@@ -1,7 +1,6 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,13 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.finaldesigntest.R;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 
 //主活动 登陆之后的界面

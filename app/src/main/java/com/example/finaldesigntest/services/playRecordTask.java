@@ -1,8 +1,10 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.services;
 
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.widget.Toast;
+
+import com.example.finaldesigntest.helper.MyApplication;
 
 import java.io.File;
 import java.text.ParsePosition;

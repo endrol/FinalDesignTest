@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.finaldesigntest.LoginActivity">
+    android:background="@color/back1"
+    tools:context="com.example.finaldesigntest.activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,15 +60,22 @@
             android:text="Remember password"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/login"
-        android:text="Login"/>
-    
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/view_login_result"/>
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="137dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:text="Login" />
+
+    <!--<at.markushi.ui.CircleButton-->
+        <!--android:layout_width="64dip"-->
+        <!--android:layout_height="64dip"-->
+        <!--app:cb_color="@color/green"-->
+        <!--app:cb_pressedRingWidth="8dip" />-->
 
 </LinearLayout>

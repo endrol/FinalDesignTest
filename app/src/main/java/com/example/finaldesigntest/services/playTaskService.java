@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.services;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -7,21 +7,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.net.rtp.RtpStream;
-import android.nfc.Tag;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.finaldesigntest.helper.MyApplication;
+import com.example.finaldesigntest.helper.toPlayTaskList;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
 
 public class playTaskService extends Service {
 

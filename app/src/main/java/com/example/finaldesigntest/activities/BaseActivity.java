@@ -1,8 +1,6 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,8 +10,8 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
+
+import com.example.finaldesigntest.services.downloadTask;
 
 /**
  * Created by 达明 on 2018/3/11.

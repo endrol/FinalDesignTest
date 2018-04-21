@@ -26,7 +26,18 @@ repositories {
 //    maven { url 'https://jitpack.io' }
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
+    mavenLocal()
 }
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -41,4 +52,8 @@ dependencies {
 
     implementation 'io.reactivex.rxjava2:rxjava:2.1.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    compile 'com.github.NodeMedia:NodeMediaClient-Android:2.4.2'
+
+    compile 'com.github.markushi:circlebutton:1.1'
 }

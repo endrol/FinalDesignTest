@@ -1,4 +1,4 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -12,6 +12,10 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.finaldesigntest.R;
+import com.example.finaldesigntest.helper.RxHelper;
+import com.example.finaldesigntest.helper.SurfaceTextureListenerWrapper;
 
 import org.easydarwin.push.MediaStream;
 

@@ -1,12 +1,10 @@
-package com.example.finaldesigntest;
+package com.example.finaldesigntest.activities;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,9 +21,10 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.example.finaldesigntest.R;
+import com.example.finaldesigntest.helper.serverConstant;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +34,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSink;
-import okio.Okio;
-import okio.Source;
 
 public class locationActivity extends BaseActivity implements View.OnClickListener {
 
@@ -52,7 +46,6 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
     private BaiduMap baiduMap;
     private boolean isFirstLocate = true;
 
-    private int[] setTime;
     private String timeSet;
 
     @Override
@@ -63,7 +56,7 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
         mLocationClient.registerLocationListener(new MyLocationListener());
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_location);
-        mapView = (MapView) findViewById(R.id.bmapView);
+        mapView = findViewById(R.id.bmapView);
         baiduMap = mapView.getMap();
         baiduMap.setMyLocationEnabled(true);
 
@@ -131,12 +124,15 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
 //            currentPosition.append("纬度: ").append(bdLocation.getLatitude()).append("\n");
 //            currentPosition.append("经线: ").append(bdLocation.getLongitude()).append("\n");
 //            currentPosition.append("country: ").append(bdLocation.getCountry()).append("\n");
+            nowCity = bdLocation.getCity();
             if(bdLocation.getLocType() == BDLocation.TypeGpsLocation ||
                     bdLocation.getLocType() == BDLocation.TypeNetWorkLocation){
                 navigateTo(bdLocation);
             }
         }
     }
+
+    private String nowCity = null;
 
     @Override
     public void onClick(View v) {
@@ -162,6 +158,9 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
                     builder.setType(MultipartBody.FORM);
             //        builder.addFormDataPart("fileName",recordFilePath);
                     builder.addFormDataPart("setTime",timeSet);
+                    /**************/
+                    builder.addFormDataPart("city",nowCity);
+                    /**************/
                     builder.addFormDataPart("file",uploadFile.getName(),fileBody);
                     builder.build();
                     //timeMills为文件名
