@@ -1,5 +1,6 @@
 package com.example.finaldesigntest.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -65,6 +66,9 @@ public class listenRealRtspActivity extends AppCompatActivity implements View.On
         findViewById(R.id.play).setOnClickListener(this);
         findViewById(R.id.stop).setOnClickListener(this);
         findViewById(R.id.back_button).setOnClickListener(this);
+
+//        findViewById(R.id.button1).setOnClickListener(this);
+//        findViewById(R.id.button2).setOnClickListener(this);
     }
 
     private void setRtspPath(String ip, String port, String id) {
@@ -105,6 +109,18 @@ public class listenRealRtspActivity extends AppCompatActivity implements View.On
                 nodePlayer.release();
                 finish();
                 break;
+                /***********************/
+//            case R.id.button1:
+//                Intent intent1 = new Intent(this,requestActivity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
+//
+//            case R.id.button2:
+//                Intent intent2 = new Intent(this,RTSPActivity.class);
+//                startActivity(intent2);
+//                finish();
+//                break;
         }
     }
 

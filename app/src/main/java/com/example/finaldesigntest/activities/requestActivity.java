@@ -11,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.finaldesigntest.R;
-import com.example.finaldesigntest.services.checkLocationService;
+import com.example.finaldesigntest.helper.isServiceRunning;
 import com.example.finaldesigntest.services.playTaskService;
 import com.example.finaldesigntest.services.socketLinkService;
 
@@ -45,16 +46,21 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
 
  //   private int[] setTime={};
 
+    isServiceRunning running = new isServiceRunning();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
-        //链接socket
-        Intent intent = new Intent(this,socketLinkService.class);
-        startService(intent);
-        //启动播放任务service
-        Intent intent1 = new Intent(this,playTaskService.class);
-        startService(intent1);
+
+            //链接socket
+            Intent intent = new Intent(this,socketLinkService.class);
+            startService(intent);
+
+            //启动播放任务service
+            Intent intent1 = new Intent(this,playTaskService.class);
+            startService(intent1);
+
+
 //        //启动自检查location的service
 //        Intent intent2 = new Intent(this,checkLocationService.class);
 //        startService(intent2);
@@ -70,6 +76,8 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
         findViewById(R.id.set_time).setOnClickListener(this);
         findViewById(R.id.choose_realTime).setOnClickListener(this);
         findViewById(R.id.listen_realRtsp).setOnClickListener(this);
+//        findViewById(R.id.button1).setOnClickListener(this);
+//        findViewById(R.id.button2).setOnClickListener(this);
 
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(requestActivity.this, Manifest
@@ -268,13 +276,13 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
 
-            case R.id.choose_realTime:
-                Intent intent1 = new Intent(this,realTimeAudioActivity.class);
+            case R.id.listen_realRtsp:
+                Intent intent1 = new Intent(this,listenRealRtspActivity.class);
                 startActivity(intent1);
                 break;
 
-            case R.id.listen_realRtsp:
-                Intent intent2 = new Intent(this,listenRealRtspActivity.class);
+            case R.id.choose_realTime:
+                Intent intent2 = new Intent(this,realTimeAudioActivity.class);
                 startActivity(intent2);
                 break;
         }
@@ -301,6 +309,23 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
 //                setTime[1] = minute;
             }
         });
+    }
+
+    /*********点击两次返回***********/
+    private long exitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && (event.getAction() == KeyEvent.ACTION_DOWN)){
+            if((System.currentTimeMillis() - exitTime) > 2000){
+                Toast.makeText(getApplicationContext(),"再按一次退出程序",Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            }else {
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

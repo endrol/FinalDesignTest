@@ -79,6 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if(checkLogin.isLoginOk){
                     Intent intent = new Intent(this,requestActivity.class);
                     startActivity(intent);
+                    finish();
                 }
                 break;
         }

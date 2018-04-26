@@ -30,11 +30,13 @@
 
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <service
@@ -67,12 +69,29 @@
 
         <activity android:name=".activities.testActivity" />
         <activity android:name=".activities.listenRealRtspActivity" />
-        <activity android:name=".activities.splashActivity"></activity>
+        <activity android:name=".activities.splashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".services.checkLocationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".activities.testSlideActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".activities.RTSPActivity"></activity>
     </application>
 
 </manifest>

@@ -26,17 +26,22 @@ public class socketLinkService extends Service {
 
     private LocationClient locationClient;
     public socketLinkService() {
+
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
+        Log.e("socketLinkService","zhe shi asdasd3");
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     //有mainActivity启动的service
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        Log.e("socketLinkService","zhe shi asdasd");
+        Log.e("socketLinkService","zhe shi asdasd2");
         //开启线程
         ClientThread clientThread = new ClientThread();
         clientThread.start();
@@ -51,6 +56,11 @@ public class socketLinkService extends Service {
         //开启自检位置线程
         checkLocationThread locationThread = new checkLocationThread();
         locationThread.start();
+        //开启线程检查是否为本socket
+        checkIsThisSocket thisSocket = new checkIsThisSocket();
+        thisSocket.start();
+
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -192,7 +202,7 @@ public class socketLinkService extends Service {
             }
         }.start();
     }
-
+//
     private Socket socket;
 
     private class ClientThread extends Thread{
@@ -201,7 +211,7 @@ public class socketLinkService extends Service {
             try {
                 socket = new Socket("192.168.191.1",12345);
                 Log.e("socketLinkService","链接上服务器socket");
-                startReader();
+                startReader(socket);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -255,20 +265,19 @@ public class socketLinkService extends Service {
         }
     }
 
-    private void startReader(){
+    private void startReader(final Socket socket1){
         new Thread(){
             @Override
             public void run() {
                 DataInputStream dataInputStream;
                 try {
-                    dataInputStream = new DataInputStream(socket.getInputStream());
+                    dataInputStream = new DataInputStream(socket1.getInputStream());
                     while (true){
                         String msg = dataInputStream.readUTF();
                         Log.e("socketLinkService","收到从服务器发来的信息"+msg);
                         Intent intent = new Intent("com.example.finaldesigntest.DOWNLOAD");
                         intent.putExtra("toShow",msg);
                         sendBroadcast(intent);
-
                         sleep(1000);
                     }
                 } catch (IOException e) {
@@ -279,6 +288,27 @@ public class socketLinkService extends Service {
 
             }
         }.start();
+    }
+
+    private class checkIsThisSocket extends Thread{
+        @Override
+        public void run() {
+            while(true){
+
+                if(socketHelper.getSocketHelper().isThisSocket()){
+                    sendMeg("chosen");
+
+                    //还原
+                    socketHelper.getSocketHelper().setThisSocket(false);
+                }
+
+                try {
+                    sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 

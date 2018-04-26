@@ -5,6 +5,7 @@ import com.example.finaldesigntest.helper.MyApplication;
 public class locationHelper {
     private String Latitude, Longitude, city;
 
+
     private boolean checkLocation = false;
 
     public boolean isCheckLocation() {

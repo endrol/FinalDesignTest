@@ -23,6 +23,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.finaldesigntest.R;
 import com.example.finaldesigntest.helper.serverConstant;
+import com.example.finaldesigntest.services.socketHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -69,6 +70,9 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
 
         recordFilePath = filePath;
         findViewById(R.id.send_file).setOnClickListener(this);
+//
+//        findViewById(R.id.button1).setOnClickListener(this);
+//        findViewById(R.id.button2).setOnClickListener(this);
 
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(locationActivity.this, Manifest.
@@ -138,10 +142,25 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.send_file:
+                socketHelper.getSocketHelper().setThisSocket(true);
                 uploadFile();
                 break;
+
+//            case R.id.button1:
+//                Intent intent1 = new Intent(this,requestActivity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
+//
+//            case R.id.button2:
+//                Intent intent2 = new Intent(this,RTSPActivity.class);
+//                startActivity(intent2);
+//                finish();
+//                break;
         }
     }
+
+
 
     private void uploadFile(){
         new Thread(){

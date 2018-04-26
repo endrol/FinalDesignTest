@@ -1,23 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="@color/back1"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edMenuBackground="@color/white"
+    app:edMenuSize="260dp"
+    app:edPosition="1"
     tools:context="com.example.finaldesigntest.activities.locationActivity">
 
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/bmapView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="467dp"
-        android:clickable="true" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/send_file"
-        android:layout_width="113dp"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:layout_gravity="center"/>
 
-</LinearLayout>
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="467dp"
+            android:clickable="true" />
+
+        <Button
+            android:id="@+id/send_file"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <!--menu -->
+    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="fill_parent"
+                android:layout_height="190dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="96dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.082">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/textViewBackOrange"
+
+                    android:text="  发送页面:\n
+                    \n地图显示当前所在位置(网速好)\nSEND: 向服务器发送声音文件\n
+                    \n收到弹窗“received”表示服务器收到请求"
+                    android:textSize="20dp" />
+
+
+            </ScrollView>
+
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+
+
+
+
+
+
+</com.mxn.soul.flowingdrawer_core.FlowingDrawer>

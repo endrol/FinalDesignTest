@@ -1,103 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/back1"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edMenuBackground="@color/white"
+    app:edMenuSize="260dp"
+    app:edPosition="1"
     tools:context="com.example.finaldesigntest.activities.requestActivity">
 
-    <Button
-        android:id="@+id/start_record"
-        android:layout_width="115dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="428dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginStart="104dp"
-        android:text="start record"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/stop_record"
-        android:layout_width="89dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="124dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginTop="104dp"
-        android:text="stop record"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="155dp"
+            android:layout_height="137dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/liga"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/start_record"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="161dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="92dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="180dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/listen_record"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Listen record" />
+        <ImageView
+            android:layout_width="174dp"
+            android:layout_height="127dp"
+            android:layout_marginBottom="36dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/ligaright"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/listen_realRtsp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/stop_listen"
-            android:layout_width="0dp"
+            android:id="@+id/start_record"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="stop listen" />
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="8dp"
+            android:text="start record"
+            app:layout_constraintBottom_toTopOf="@+id/stop_record"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/stop_record"
+            android:layout_width="114dp"
+            android:layout_height="54dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="116dp"
+            android:text="stop record"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/set_time"
-        android:layout_width="79dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="136dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="248dp"
-        android:text="set time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="161dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="52dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="192dp"
+            app:layout_constraintBottom_toTopOf="@+id/set_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.137">
 
-    <Button
-        android:id="@+id/choose_location"
-        android:layout_width="122dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        android:layout_marginLeft="104dp"
-        android:layout_marginStart="104dp"
-        android:text="choose location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/listen_record"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Listen record" />
 
-    <Button
-        android:id="@+id/choose_realTime"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginLeft="68dp"
-        android:layout_marginStart="68dp"
-        android:text="real Time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/stop_listen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="stop listen" />
 
-    <Button
-        android:id="@+id/listen_realRtsp"
-        android:layout_width="95dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
-        android:layout_marginLeft="184dp"
-        android:layout_marginStart="184dp"
-        android:text="Listen RTSP"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/set_time"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="56dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="20dp"
+            android:text="set time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <Button
+            android:id="@+id/choose_location"
+            android:layout_width="122dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="140dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:text="choose location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <Button
+            android:id="@+id/choose_realTime"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="232dp"
+            android:layout_marginStart="232dp"
+            android:text="real Time"
+            app:layout_constraintBottom_toTopOf="@+id/listen_realRtsp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/listen_realRtsp"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="228dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="228dp"
+            android:text="Listen RTSP"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <!--menu -->
+    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/textViewBackOrange"
+                android:text="本应用可以实现文件传输和流媒体两种形式的声音广播\n试试吧\n\n"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="fill_parent"
+                android:layout_height="190dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/textViewBackOrange"
+
+                    android:text="  文件形式:\nSTART RECORD开始录制\nSTOP RECORD停止录制\n
+                    \nLISTEN RECORD试听录音\nSTOP LISTEN可停下播放\n\nSET TIME选择播放时间(建议两分钟后)\n
+                    \nCHOOSE LOCATION进入发送页面"
+                    android:textSize="20dp" />
+
+
+            </ScrollView>
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="  流媒体形式: \nREAL TIME进入声音推送页面\nLISTEN RTSP进入监听音频流的页面"
+                android:textSize="20dp"
+                android:background="@color/textViewBackOrange"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+
+</com.mxn.soul.flowingdrawer_core.FlowingDrawer>

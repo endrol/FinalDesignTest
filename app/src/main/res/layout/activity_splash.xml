@@ -8,25 +8,32 @@
     tools:context=".activities.splashActivity">
 
     <ImageView
-        android:layout_width="372dp"
-        android:layout_height="376dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="28dp"
-        android:src="@mipmap/nakaduo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="387dp"
+        android:layout_height="369dp"
+        android:layout_marginBottom="124dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/nakaduo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="252dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginStart="8dp"
         android:text="version 1.0 designed by endrol"
         android:textColor="@color/white"
         android:textSize="@dimen/list_font_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

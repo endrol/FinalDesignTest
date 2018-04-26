@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.finaldesigntest.helper.MyApplication;
 import com.example.finaldesigntest.R;
 import com.example.finaldesigntest.helper.RxHelper;
+import com.example.finaldesigntest.helper.isServiceRunning;
 
 import org.easydarwin.push.MediaStream;
 
@@ -45,12 +46,15 @@ public class realTimeAudioActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-
+    isServiceRunning running = new isServiceRunning();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_time_audio);
         //启动service
+//        if(!running.serviceRuning(this,"org.easydarwin.push.MediaStream")){
+//
+//        }
         Intent intent = new Intent(this, MediaStream.class);
         startService(intent);
 
@@ -89,6 +93,9 @@ public class realTimeAudioActivity extends BaseActivity implements View.OnClickL
         findViewById(R.id.record_realTime).setOnClickListener(this);
         findViewById(R.id.stop_realTime).setOnClickListener(this);
 //        findViewById(R.id.save_rtsp_address).setOnClickListener(this);
+//
+//        findViewById(R.id.button1).setOnClickListener(this);
+//        findViewById(R.id.button2).setOnClickListener(this);
 
     }
 
@@ -147,6 +154,18 @@ public class realTimeAudioActivity extends BaseActivity implements View.OnClickL
             case R.id.stop_realTime:
                 toStop();
                 break;
+            /************************/
+//            case R.id.button1:
+//                Intent intent1 = new Intent(this,requestActivity.class);
+//                startActivity(intent1);
+//                finish();
+//                break;
+//
+//            case R.id.button2:
+//                Intent intent2 = new Intent(this,RTSPActivity.class);
+//                startActivity(intent2);
+//                finish();
+//                break;
         }
     }
 }

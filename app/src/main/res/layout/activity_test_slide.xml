@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edPosition="1"
+    app:edMenuSize="260dp"
+    app:edMenuBackground="@color/white"
+    tools:context=".activities.testSlideActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/back2">
+
+        <TextView
+            android:layout_width="340dp"
+            android:layout_height="110dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="64dp"
+            android:text="This app can support\n stream and file method \nto send voice message"
+            android:textColor="@color/back1"
+            android:textSize="26dp"
+            android:background="@color/textViewBackOrange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.611"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="340dp"
+            android:layout_height="84dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="280dp"
+            android:background="@color/green"
+            android:text="Slide the Left Side to Find Out"
+            android:textColor="@color/back1"
+            android:textSize="26dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.611"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <!--menu -->
+    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/container_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="148dp"
+                android:background="@color/back2"
+                android:text="File Method"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="228dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="300dp"
+                android:background="@color/back2"
+                android:text="Stream Method"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+</com.mxn.soul.flowingdrawer_core.FlowingDrawer>

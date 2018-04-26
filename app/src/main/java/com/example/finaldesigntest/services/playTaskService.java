@@ -28,6 +28,9 @@ public class playTaskService extends Service {
     private  List<toPlayTaskList> toPlayTaskLists = new ArrayList<>();
 
     public playTaskService() {
+
+
+
     }
 
     @Override
