@@ -23,7 +23,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.finaldesigntest.R;
 import com.example.finaldesigntest.helper.serverConstant;
-import com.example.finaldesigntest.services.socketHelper;
+import com.example.finaldesigntest.helper.socketHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -136,6 +136,7 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    /************ojbk****/
     private String nowCity = null;
 
     @Override
