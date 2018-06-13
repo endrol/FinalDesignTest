@@ -5,12 +5,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.finaldesigntest.R;
 import com.example.finaldesigntest.helper.MyApplication;
 import com.example.finaldesigntest.helper.toPlayTaskList;
 
@@ -29,8 +32,6 @@ public class playTaskService extends Service {
 
     public playTaskService() {
 
-
-
     }
 
     @Override
@@ -38,6 +39,12 @@ public class playTaskService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    private int maxVolume = 50;
+    private AudioManager manager;
+
+    private SoundPool pool;
+    private int poolMp3Id;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -51,6 +58,11 @@ public class playTaskService extends Service {
         checkTaskListThread listThread = new checkTaskListThread();
         listThread.start();
 
+        manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        pool = new SoundPool(1,AudioManager.STREAM_MUSIC,0);
+        poolMp3Id = pool.load(this, R.raw.okok23,1);
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -69,6 +81,9 @@ public class playTaskService extends Service {
         if(thread!=null){
             thread=null;
         }
+
+        pool.release();
+
         super.onDestroy();
     }
 
@@ -103,6 +118,8 @@ public class playTaskService extends Service {
         }
     }
 
+
+
     String directory = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/savedRecord/";
     private class playRecordThread extends Thread{
@@ -110,10 +127,15 @@ public class playTaskService extends Service {
         public void run() {
             mediaPlayer = MediaPlayer.create(MyApplication.getContext(), Uri.fromFile(new File(
                     directory+toPlayTaskLists.get(0).getPath())));
+
+            manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume,
+                    AudioManager.FLAG_PLAY_SOUND);
+            pool.play(poolMp3Id,maxVolume,maxVolume,1,0,1);
+
             mediaPlayer.start();
         }
     }
-//
+    //
 //    private void initMediaPlayer(String filePath){
 //        String directory = Environment.getExternalStorageDirectory().getAbsolutePath()
 //                + "/savedRecord/";

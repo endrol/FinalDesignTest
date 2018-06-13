@@ -61,24 +61,27 @@ public class BaseActivity extends AppCompatActivity{
         @Override
         public void onReceive(final Context context, final Intent intent) {
             final String content = intent.getStringExtra("toShow");
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Received from socketHost");
-            builder.setMessage(content);
-            builder.setCancelable(false);
-            builder.setPositiveButton("start", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    new downloadTask().execute(content);        //开启下载服务
-       //             new playRecordTask().execute(content);         //开启定时播放服务
-                }
-            });
-            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
-            builder.show();
+            new downloadTask().execute(content);
+                //取消下载弹窗 自动下载
+//            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//            builder.setTitle("Received from socketHost");
+//            builder.setMessage(content);
+//            builder.setCancelable(false);
+//            builder.setPositiveButton("start", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    new downloadTask().execute(content);        //开启下载服务
+//       //             new playRecordTask().execute(content);         //开启定时播放服务
+//                }
+//            });
+//            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            builder.show();
 
         }
     }

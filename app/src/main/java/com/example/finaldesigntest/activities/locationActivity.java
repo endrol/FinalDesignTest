@@ -70,9 +70,6 @@ public class locationActivity extends BaseActivity implements View.OnClickListen
 
         recordFilePath = filePath;
         findViewById(R.id.send_file).setOnClickListener(this);
-//
-//        findViewById(R.id.button1).setOnClickListener(this);
-//        findViewById(R.id.button2).setOnClickListener(this);
 
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(locationActivity.this, Manifest.

@@ -1,27 +1,35 @@
 package com.example.finaldesigntest.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.finaldesigntest.R;
-import com.example.finaldesigntest.helper.isServiceRunning;
+import com.example.finaldesigntest.helper.AudioRecordUtil;
+import com.example.finaldesigntest.helper.PopupWindow;
+import com.example.finaldesigntest.helper.TimeUtil;
 import com.example.finaldesigntest.services.playTaskService;
 import com.example.finaldesigntest.services.socketLinkService;
+import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
 
 import java.io.File;
@@ -35,49 +43,103 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
 
     private String TAG = "requestActivity";
 
-    private MediaRecorder mediaRecorder;
-    private File recordFile;
-    private String recordFilePath = Environment.getExternalStorageDirectory()
-                                         .getAbsolutePath()+"/audio/";
 
     private MediaPlayer mediaPlayer;
-    private static String nowRecordPath;
-    private boolean isRecording = false;
+    private AudioManager manager = null;
+    private int maxVolume = 50;
 
- //   private int[] setTime={};
+    private Button mButton;
+    private ImageView mImageView;
+    private TextView mTextView;
+    private AudioRecordUtil audioRecordUtil;
+    private Context context;
+    private PopupWindow popupWindow;
+    private FlowingDrawer layout;
+    private ImageView imgPlay;
+    private ImageView imgCheck;
+ //   private ImageView imgSetTime;
 
-    isServiceRunning running = new isServiceRunning();
+    private static final int STATE_NORMAL = 1;
+    private static final int STATE_RECORDING = 2;
+    private static final int STATE_WANT_TO_CANCEL = 3;
+
+    boolean isFileThere;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request);
 
-            //链接socket
-            Intent intent = new Intent(this,socketLinkService.class);
-            startService(intent);
+        manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-            //启动播放任务service
-            Intent intent1 = new Intent(this,playTaskService.class);
-            startService(intent1);
+        context = this;
+        isFileThere = false;
 
+        //链接socket
+        Intent intent = new Intent(this,socketLinkService.class);
+        startService(intent);
 
-//        //启动自检查location的service
-//        Intent intent2 = new Intent(this,checkLocationService.class);
-//        startService(intent2);
+        //启动播放任务service
+        Intent intent1 = new Intent(this,playTaskService.class);
+        startService(intent1);
 
-        mediaRecorder = new MediaRecorder();
-//        mediaPlayer = new MediaPlayer();
+        layout = findViewById(R.id.r1);
+        mButton = findViewById(R.id.btn_Record);
+        imgCheck = findViewById(R.id.img_Check);
+        imgCheck.setVisibility(View.GONE);
+        imgPlay = findViewById(R.id.img_Listen);
+        imgPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mediaPlayer.isPlaying()){
 
-        findViewById(R.id.start_record).setOnClickListener(this);
-        findViewById(R.id.stop_record).setOnClickListener(this);
-        findViewById(R.id.listen_record).setOnClickListener(this);
-        findViewById(R.id.stop_listen).setOnClickListener(this);
-        findViewById(R.id.choose_location).setOnClickListener(this);
-        findViewById(R.id.set_time).setOnClickListener(this);
+                    manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume,
+                            AudioManager.FLAG_PLAY_SOUND);
+                    mediaPlayer.start();
+                    imgCheck.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        final View view = View.inflate(this,R.layout.microphone_layout,null);
+        popupWindow = new PopupWindow(this,view);
+        //popupWindow布局文件的控件
+        mImageView = view.findViewById(R.id.iv_recording_icon);
+        mTextView = view.findViewById(R.id.tv_recording_time);
+        audioRecordUtil = new AudioRecordUtil();  //默认地址
+        audioRecordUtil.setOnAudioStatusUpdateListener(new AudioRecordUtil.OnAudioStatusUpdateListener() {
+            @Override
+            public void onUpdate(double db, long time) {
+                mImageView.getDrawable().setLevel((int)(3000 + 6000 * db / 100));
+                mTextView.setText(TimeUtil.long2String(time));
+            }
+
+            @Override
+            public void onStop(String filePath) {
+                Toast.makeText(requestActivity.this,
+                        "录音保存在："+filePath, Toast.LENGTH_SHORT).show();
+                initMediaPlayer(filePath);
+
+                isFileThere = true;
+                setTime();
+
+                mTextView.setText(TimeUtil.long2String(0));
+                imgCheck.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancel(String message) {
+                Toast.makeText(requestActivity.this,
+                        "接收信息"+message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        findViewById(R.id.img_Locate).setOnClickListener(this);
+        findViewById(R.id.img_SetTime).setOnClickListener(this);
         findViewById(R.id.choose_realTime).setOnClickListener(this);
         findViewById(R.id.listen_realRtsp).setOnClickListener(this);
-//        findViewById(R.id.button1).setOnClickListener(this);
-//        findViewById(R.id.button2).setOnClickListener(this);
 
         List<String> permissionList = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(requestActivity.this, Manifest
@@ -93,6 +155,8 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
             ActivityCompat.requestPermissions(requestActivity.this,permissions,
                     1);
         }
+
+        StartListener();
     }
 
     @Override
@@ -119,78 +183,119 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void startRecording(){
-        Log.e(TAG,"in startrecording");
-        recordFile = new File(recordFilePath+System.currentTimeMillis()+".amr");
-
-        recordFile.getParentFile().mkdirs();   //创建father 文件夹
-
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-        mediaRecorder.setOutputFile(recordFile.getAbsolutePath());
-        Log.e(TAG,"file path is"+recordFile.getAbsolutePath());
-        isRecording = true;
-        try {
-            mediaRecorder.prepare();
-            mediaRecorder.start();
-            Log.e(TAG,"i'm recording");
-} catch (IOException e) {
-        e.printStackTrace();
-        }
-
-        }
-
-    private void stopRecording(){
-        if(recordFile != null){
-            mediaRecorder.stop();
-            Log.e(TAG,"the file"+recordFile.getAbsolutePath()+"is record stoped");
-            mediaRecorder.reset();
-            nowRecordPath = recordFile.getAbsolutePath();
-            Log.e(TAG,"stoped recording");
-            Log.e(TAG,"nowRecordPath is "+nowRecordPath);
-            isRecording = false;
-            initMediaPlayer();
-            //弹出选择窗口
-            Toast.makeText(this,"already stoped ",Toast.LENGTH_SHORT).show();
-        }
-    }
+    //    private void startRecording(){
+//        Log.e(TAG,"in startrecording");
+//        recordFile = new File(recordFilePath+System.currentTimeMillis()+".amr");
 //
-//    private void showChooseDialog(){
-//        final AlertDialog.Builder choiceDialog = new AlertDialog.Builder(this);
-//        choiceDialog.setIcon(android.R.drawable.ic_dialog_info);
-//        choiceDialog.setTitle("Choosing").setMessage("choices");
-//        choiceDialog.setPositiveButton("Send request", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(MyApplication.getContext(),"this int which is "+ which,
-//                        Toast.LENGTH_SHORT).show();
+//        recordFile.getParentFile().mkdirs();   //创建father 文件夹
 //
-//            }
-//        });
+//        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+//        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+//        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+//        mediaRecorder.setOutputFile(recordFile.getAbsolutePath());
+//        Log.e(TAG,"file path is"+recordFile.getAbsolutePath());
+//        isRecording = true;
+//        try {
+//            mediaRecorder.prepare();
+//            mediaRecorder.start();
+//            Log.e(TAG,"i'm recording");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //
-//        choiceDialog.setNeutralButton("Listen Record", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(MyApplication.getContext(),"this which is "+ which,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
+//    }
 //
-//        choiceDialog.setNegativeButton("Cancel Record", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(MyApplication.getContext(),"this which is "+ which,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        choiceDialog.setCancelable(false);
-//        choiceDialog.show();
+//    private void stopRecording(){
+//        if(recordFile != null){
+//            mediaRecorder.stop();
+//            Log.e(TAG,"the file"+recordFile.getAbsolutePath()+"is record stoped");
+//            mediaRecorder.reset();
+//            nowRecordPath = recordFile.getAbsolutePath();
+//            Log.e(TAG,"stoped recording");
+//            Log.e(TAG,"nowRecordPath is "+nowRecordPath);
+//            isRecording = false;
+//            initMediaPlayer();
+//            //弹出选择窗口
+//            Toast.makeText(this,"already stoped ",Toast.LENGTH_SHORT).show();
+//        }
 //    }
 
-    private void initMediaPlayer(){
+    private int currentState = STATE_NORMAL;
+    private void changeState(int state){
+        if(currentState != state){
+            currentState = state;
+            switch (currentState){
+                case STATE_NORMAL:
+                    mButton.setText("长按录音");
+                    break;
+                case STATE_RECORDING:
+                    mButton.setText("松开保存");
+                    break;
+                case STATE_WANT_TO_CANCEL:
+                    mButton.setText("松开取消");
+                    break;
+            }
+        }
+    }
+    private boolean wantToCancel(int x, int y) {
+        if (x < 0 || x > mButton.getWidth()) {// 判断是否在左边，右边，上边，下边
+            return true;
+        }
+        if (y < -50 || y > mButton.getHeight() + 50) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void StartListener(){
+        //Button的touch监听
+        mButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                switch (event.getAction()){
+
+                    case MotionEvent.ACTION_DOWN:
+
+                        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+                        audioRecordUtil.startRecord();
+                        changeState(STATE_RECORDING);
+
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if(currentState == STATE_RECORDING){
+                            audioRecordUtil.stopRecord();        //结束录音（保存录音文件）
+                        }
+                        if(currentState == STATE_WANT_TO_CANCEL){
+                            audioRecordUtil.cancelRecord();    //取消录音（不保存录音文件）
+                        }
+                        changeState(STATE_NORMAL);
+                        popupWindow.dismiss();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        if(wantToCancel(x,y)){
+                            changeState(STATE_WANT_TO_CANCEL);
+                        }else {
+                            changeState(STATE_RECORDING);
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    String nowFilePath;
+
+    private void initMediaPlayer(String nowRecordPath){
         Log.d(TAG,"In initMediaPlayer");
+        nowFilePath = nowRecordPath;
         try {
             if (nowRecordPath != null){
                 File playFile = new File(nowRecordPath);
@@ -205,72 +310,53 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
     }
     int hour, minute;
 
+    private void setTime(){
+        TimePickerView timePickerView = new TimePickerBuilder(this,
+                new OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        Toast.makeText(getApplicationContext(),date.toString(),
+                                Toast.LENGTH_SHORT).show();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+                        hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        minute = calendar.get(Calendar.MINUTE);
+                        Log.d(TAG,"hour is "+hour);
+                        Log.d(TAG,"minute is "+minute);
+
+                        if(isFileThere){
+                            //已经有了录音文件 可以直接进入地址页面
+                            Intent intent = new Intent(requestActivity.this,locationActivity.class);
+                            intent.putExtra("filePath",nowFilePath);
+                            intent.putExtra("setTimeHour",hour);
+                            intent.putExtra("setTimeMinute",minute);
+                            startActivity(intent);
+                        }
+
+                    }
+                })
+                .setLabel("year","month",
+                        "day","hour",
+                        "min","sec")
+                .setType(new boolean[]{false, false, false, true, true, true})
+                .setTitleText("选择启动时间")
+//                        .setRangDate(Calendar.getInstance(),
+//                                Calendar.getInstance().add(Calendar.HOUR_OF_DAY,5))
+                .build();
+        timePickerView.setDate(Calendar.getInstance());
+        timePickerView.show();
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.start_record:
-                if(isRecording == false){
-                    startRecording();
-                }
+            case R.id.img_SetTime:
+                setTime();
                 break;
-
-            case R.id.stop_record:
-                if(isRecording == true){
-                    stopRecording();
-                }
-                break;
-
-            case R.id.listen_record:
-                if(!mediaPlayer.isPlaying()){
-                    mediaPlayer.start();
-                }
-                break;
-            case R.id.stop_listen:
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
-//                    mediaPlayer.reset();
-//                    initMediaPlayer();
-                }
-                break;
-            case R.id.set_time:
-                TimePickerView timePickerView = new TimePickerBuilder(this,
-                        new OnTimeSelectListener() {
-                            @Override
-                            public void onTimeSelect(Date date, View v) {
-                                Toast.makeText(getApplicationContext(),date.toString(),
-                                        Toast.LENGTH_SHORT).show();
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.setTime(date);
-                                hour = calendar.get(Calendar.HOUR_OF_DAY);
-                                minute = calendar.get(Calendar.MINUTE);
-//
-//                                Message message = new Message();
-//                                message.what = 1;
-//                                int[] ok ={};
-//                                ok[0] = hour; ok[1] = minute;
-//                                message.obj = ok;
-//                                handler.sendMessage(message);
-                                Log.d(TAG,"hour is "+hour);
-                                Log.d(TAG,"minute is "+minute);
-                            }
-                        })
-                        .setLabel("year","month",
-                                "day","hour",
-                                "min","sec")
-                        .setType(new boolean[]{false, false, false, true, true, true})
-                        .setTitleText("选择启动时间")
-//                        .setRangDate(Calendar.getInstance(),
-//                                Calendar.getInstance().add(Calendar.HOUR_OF_DAY,5))
-                        .build();
-                timePickerView.setDate(Calendar.getInstance());
-                timePickerView.show();
-                break;
-            case R.id.choose_location:
+            case R.id.img_Locate:
                 Intent intent = new Intent(this,locationActivity.class);
-                intent.putExtra("filePath",nowRecordPath);
-//                setTime[0] = hour;
-////                setTime[1] = minute;
-//                Log.d(TAG,"now at last setTime is "+setTime[0]+setTime[1]);
+                intent.putExtra("filePath",nowFilePath);
                 intent.putExtra("setTimeHour",hour);
                 intent.putExtra("setTimeMinute",minute);
                 startActivity(intent);
@@ -286,29 +372,6 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent2);
                 break;
         }
-    }
-
-//    Handler handler = new Handler(){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case 1:
-//                    setTime = (int[]) msg.obj;
-//                    break;
-//            }
-//        }
-//    };
-    private void setTimeTo(final int hour, final int minute){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(requestActivity.this,hour+" "+minute,
-                        Toast.LENGTH_SHORT).show();
-//                setTime[0] = hour;
-//                setTime[1] = minute;
-            }
-        });
     }
 
     /*********点击两次返回***********/
@@ -334,10 +397,6 @@ public class requestActivity extends BaseActivity implements View.OnClickListene
         if(mediaPlayer != null){
             mediaPlayer.stop();
             mediaPlayer.release();
-        }
-        if(mediaRecorder != null){
-            mediaRecorder.stop();
-            mediaRecorder.release();
         }
     }
 }

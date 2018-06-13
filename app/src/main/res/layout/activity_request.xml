@@ -11,6 +11,7 @@
     app:edMenuBackground="@color/white"
     app:edMenuSize="260dp"
     app:edPosition="1"
+    android:id="@+id/r1"
     tools:context="com.example.finaldesigntest.activities.requestActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -18,143 +19,77 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="155dp"
-            android:layout_height="137dp"
-            android:layout_marginEnd="36dp"
+            android:id="@+id/img_Locate"
+            android:layout_width="68dp"
+            android:layout_height="65dp"
+            android:layout_marginBottom="160dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="36dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/liga"
+            android:src="@drawable/locate"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/start_record"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.714"
+            app:layout_constraintStart_toEndOf="@+id/img_SetTime" />
 
         <ImageView
-            android:layout_width="174dp"
-            android:layout_height="127dp"
-            android:layout_marginBottom="36dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="28dp"
-            android:src="@drawable/ligaright"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/listen_realRtsp"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/start_record"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="8dp"
-            android:text="start record"
-            app:layout_constraintBottom_toTopOf="@+id/stop_record"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/stop_record"
-            android:layout_width="114dp"
-            android:layout_height="54dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="116dp"
-            android:text="stop record"
-            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/img_SetTime"
+            android:layout_width="65dp"
+            android:layout_height="62dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="144dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="284dp"
+            android:src="@drawable/timg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.943"
+            app:layout_constraintStart_toEndOf="@+id/img_Listen"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="161dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="192dp"
-            app:layout_constraintBottom_toTopOf="@+id/set_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.137">
-
-            <Button
-                android:id="@+id/listen_record"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Listen record" />
-
-            <Button
-                android:id="@+id/stop_listen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="stop listen" />
-
-        </LinearLayout>
 
         <Button
-            android:id="@+id/set_time"
-            android:layout_width="79dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="56dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="20dp"
-            android:text="set time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-        <Button
-            android:id="@+id/choose_location"
-            android:layout_width="122dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="140dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="140dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp"
-            android:text="choose location"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-        <Button
-            android:id="@+id/choose_realTime"
-            android:layout_width="86dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:layout_marginLeft="232dp"
-            android:layout_marginStart="232dp"
-            android:text="real Time"
-            app:layout_constraintBottom_toTopOf="@+id/listen_realRtsp"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/listen_realRtsp"
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="228dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="228dp"
-            android:text="Listen RTSP"
+            android:id="@+id/btn_Record"
+            android:layout_width="221dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="52dp"
+            android:layout_marginEnd="68dp"
+            android:layout_marginRight="68dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:text="按住说话"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/img_SetTime"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+
+        <ImageView
+            android:id="@+id/img_Listen"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="164dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/message"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_Check"
+            android:layout_width="111dp"
+            android:layout_height="13dp"
+            android:layout_marginBottom="212dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/yuyin_tixing_red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
     </android.support.constraint.ConstraintLayout>
@@ -167,74 +102,37 @@
         android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/container_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/choose_realTime"
+                android:layout_width="159dp"
+                android:layout_height="121dp"
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/textViewBackOrange"
-                android:text="本应用可以实现文件传输和流媒体两种形式的声音广播\n试试吧\n\n"
-                android:textSize="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginLeft="48dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="44dp"
+                android:text="real Time"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ScrollView
-                android:id="@+id/scrollView2"
-                android:layout_width="fill_parent"
-                android:layout_height="190dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+            <Button
+                android:id="@+id/listen_realRtsp"
+                android:layout_width="144dp"
+                android:layout_height="120dp"
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/textViewBackOrange"
-
-                    android:text="  文件形式:\nSTART RECORD开始录制\nSTOP RECORD停止录制\n
-                    \nLISTEN RECORD试听录音\nSTOP LISTEN可停下播放\n\nSET TIME选择播放时间(建议两分钟后)\n
-                    \nCHOOSE LOCATION进入发送页面"
-                    android:textSize="20dp" />
-
-
-            </ScrollView>
-
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="  流媒体形式: \nREAL TIME进入声音推送页面\nLISTEN RTSP进入监听音频流的页面"
-                android:textSize="20dp"
-                android:background="@color/textViewBackOrange"
+                android:layout_marginBottom="84dp"
+                android:layout_marginLeft="56dp"
+                android:layout_marginStart="56dp"
+                android:text="Listen RTSP"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </android.support.constraint.ConstraintLayout>
+
+
 
 
     </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>

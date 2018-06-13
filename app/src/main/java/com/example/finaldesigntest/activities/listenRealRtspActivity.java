@@ -1,5 +1,7 @@
 package com.example.finaldesigntest.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -9,9 +11,12 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.MediaController;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.finaldesigntest.R;
@@ -26,22 +31,64 @@ public class listenRealRtspActivity extends AppCompatActivity implements View.On
 
     private String rtspPath;
 
-    private EditText edIP;
-    private EditText edPORT;
-    private EditText edID;
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-
     NodePlayer nodePlayer;
+
+    private int maxVolume = 50;
+    private AudioManager manager = null;
+
+    private TextView textView;
+    private static final int STATE_NORMAL = 1;
+    private static final int STATE_LISTENBRA = 2;
+
+    private int currentState = STATE_NORMAL;
+    private void changeState(int State){
+        if(currentState != State){
+            currentState = State;
+            switch (currentState){
+                case STATE_NORMAL:
+                    textView.setText("点击监听");
+                    break;
+                case STATE_LISTENBRA:
+                    textView.setText("点击停止");
+                    break;
+
+            }
+        }
+    }
+
+    private String RTSP_IP;
+    private String RTSP_PORT;
+    private String RTSP_ID;
+
+    private void setRTSP(final String ip,final String port,final String id){
+        RTSP_IP = ip;
+        RTSP_PORT = port;
+        RTSP_ID = id;
+    }
+
+    private String getRTSP_IP(){
+        return RTSP_IP;
+    }
+    private String getRTSP_PORT(){
+        return RTSP_PORT;
+    }
+    private String getRTSP_ID(){
+        return RTSP_ID;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen_real_rtsp);
 
-        edIP = findViewById(R.id.edIP);
-        edPORT = findViewById(R.id.edPort);
-        edID = findViewById(R.id.edId);
+        manager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        RTSP_IP = "192.168.191.1";
+        RTSP_PORT = "554";
+        RTSP_ID = "hello";
+
+        textView = findViewById(R.id.view_Txt2);
 
         nodePlayer = new NodePlayer(this);
         NodePlayerView playerView = findViewById(R.id.player_view);
@@ -52,75 +99,83 @@ public class listenRealRtspActivity extends AppCompatActivity implements View.On
         nodePlayer.setHWEnable(true);
         nodePlayer.setBufferTime(500);
         nodePlayer.setMaxBufferTime(1000);
+        setRtspPath(getRTSP_IP(), getRTSP_PORT(), getRTSP_ID());
 
 
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        String rtspIp = pref.getString("RTSP_IP", "");
-        String rtspPort = pref.getString("RTSP_PORT", "");
-        String rtspId = pref.getString("RTSP_ID", "");
-        edIP.setText(rtspIp);
-        edPORT.setText(rtspPort);
-        edID.setText(rtspId);
+        findViewById(R.id.img_LisBra).setOnClickListener(this);
+        findViewById(R.id.img_setting2).setOnClickListener(this);
 
-        findViewById(R.id.connect).setOnClickListener(this);
-        findViewById(R.id.play).setOnClickListener(this);
-        findViewById(R.id.stop).setOnClickListener(this);
-        findViewById(R.id.back_button).setOnClickListener(this);
-
-//        findViewById(R.id.button1).setOnClickListener(this);
-//        findViewById(R.id.button2).setOnClickListener(this);
     }
 
     private void setRtspPath(String ip, String port, String id) {
         rtspPath = "rtsp://" + ip + ":" + port + "/" + id + ".sdp";
 
-
         nodePlayer.setInputUrl(rtspPath);
         nodePlayer.setRtspTransport(NodePlayer.RTSP_TRANSPORT_TCP);
+    }
 
+    private void setting(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("请输入");
+
+        LayoutInflater factory = LayoutInflater.from(listenRealRtspActivity.this);
+        final View view = factory.inflate(R.layout.setting_layout,null);
+
+        builder.setView(view);
+        builder.setPositiveButton("保存", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText rtspip = view.findViewById(R.id.ed_ip);
+                EditText rtspport = view.findViewById(R.id.ed_port);
+                EditText  rtspid = view.findViewById(R.id.ed_id);
+
+                Toast.makeText(listenRealRtspActivity.this, "你输入的是: " +
+                                rtspip.getText().toString() + "and "+rtspport.getText().toString()
+                                + " " + rtspid.getText().toString(),
+                        Toast.LENGTH_SHORT).show();
+
+                setRTSP(rtspip.getText().toString(),rtspport.getText().toString(),rtspid.getText().toString());
+                setRtspPath(getRTSP_IP(),getRTSP_PORT(),getRTSP_ID());
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(listenRealRtspActivity.this,
+                        "你点了取消", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setCancelable(true);    //设置按钮是否可以按返回键取消,false则不可以取消
+        AlertDialog dialog = builder.create();  //创建对话框
+        dialog.setCanceledOnTouchOutside(true); //设置弹出框失去焦点是否隐藏,即点击屏蔽其它地方是否隐藏
+        dialog.show();
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.connect:
 
-                editor = pref.edit();
-                String rtspIp = edIP.getText().toString();
-                String rtspPort = edPORT.getText().toString();
-                String rtspId = edID.getText().toString();
-                editor.putString("RTSP_IP", rtspIp);
-                editor.putString("RTSP_PORT", rtspPort);
-                editor.putString("RTSP_ID", rtspId);
-                editor.apply();
+            case R.id.img_LisBra:
+                if(currentState == STATE_NORMAL){
+                    //点击监听
+                    changeState(STATE_LISTENBRA);
 
-                setRtspPath(rtspIp, rtspPort, rtspId);
-                break;
-            case R.id.play:
-                nodePlayer.start();
-                break;
+                    manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume,
+                            AudioManager.FLAG_PLAY_SOUND);
 
-            case R.id.stop:
-                nodePlayer.stop();
+                    nodePlayer.start();
+                }else {
+                    changeState(STATE_NORMAL);
+                    nodePlayer.stop();
+                }
                 break;
 
-            case R.id.back_button:
-                nodePlayer.release();
-                finish();
+            case R.id.img_setting2:
+                setting();
                 break;
                 /***********************/
-//            case R.id.button1:
-//                Intent intent1 = new Intent(this,requestActivity.class);
-//                startActivity(intent1);
-//                finish();
-//                break;
-//
-//            case R.id.button2:
-//                Intent intent2 = new Intent(this,RTSPActivity.class);
-//                startActivity(intent2);
-//                finish();
-//                break;
         }
     }
 
