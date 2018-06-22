@@ -91,7 +91,12 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".activities.RTSPActivity"></activity>
+        <activity android:name=".activities.RTSPActivity" />
+
+        <service
+            android:name=".activities.RtspService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
